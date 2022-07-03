@@ -28,9 +28,11 @@ $ pig -x local -f pregunta.pig
 
          >>> Escriba su respuesta a partir de este punto <<<
 */
-datos = LOAD 'data.tsv' AS (letra:CHARARRAY, fecha:CHARARRAY, num:int);
-data_ordenada = ORDER datos BY num;
-limite = LIMIT data_ordenada 5;
-result = FOREACH limite GENERATE num;
+datos = LOAD './data.csv' USING PigStorage(',') AS (driverId:int, truckId:int, eventTime:CHARARRAY, eventType:CHARARRAY, longitude:DOUBLE, latitude:DOUBLE, eventKey:CHARARRAY, correlationId:CHARARRAY, driverName:CHARARRAY, routeId:biginteger, routeName:CHARARRAY, eventDate:CHARARRAY);
+limite = LIMIT datos 10;
+result = FOREACH limite GENERATE driverId, truckId,eventTime;
+data_ord = ORDER result BY driverId, truckId,eventTime;
+
+STORE data_ord INTO 'output/' USING PigStorage(','); 
 
 STORE result INTO 'output/' USING PigStorage(',');
