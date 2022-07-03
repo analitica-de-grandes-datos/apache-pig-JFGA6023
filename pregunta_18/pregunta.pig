@@ -21,16 +21,9 @@ $ pig -x local -f pregunta.pig
         /* >>> Escriba su respuesta a partir de este punto <<< */
 */
 
-datos = LOAD 'data.csv' USING PigStorage(',')
-    AS (
-        id:int,
-        firstname:chararray,
-        lastname:chararray,
-        date:datetime,
-        color:chararray,
-        cant:int
-    );
-filtro = FILTER datos BY (color matches 'blue') or (color matches 'black');
-result = FOREACH filtro GENERATE firstname, color;
+data = LOAD 'data.csv' USING PigStorage(',') AS (num:int, name:chararray, lastname:chararray, tim:datetime, color:chararray, cant:int);
+gen = FOREACH data GENERATE name, color;
+filtro = FILTER gen BY NOT (color MATCHES '.*b.*');
+DUMP gen;
 
-STORE result INTO 'output' USING PigStorage(',');
+STORE filtro INTO 'output' USING PigStorage(',');
