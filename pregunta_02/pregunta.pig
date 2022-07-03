@@ -1,4 +1,7 @@
-/*
+data = LOAD 'data.tsv' AS (letra:CHARARRAY, fecha:CHARARRAY, num:int);
+ordered_data = ORDER data BY letra, num;
+
+STORE ordered_data INTO 'output/' USING PigStorage(',');/*
 Pregunta
 ===========================================================================
 
@@ -12,3 +15,7 @@ $ pig -x local -f pregunta.pig
 
      >>> Escriba el codigo del mapper a partir de este punto <<<
 */
+datos = LOAD 'data.tsv' AS (letra:CHARARRAY, fecha:CHARARRAY, num:int);
+ordered_data = ORDER datos BY letra, num;
+
+STORE ordered_data INTO 'output/' USING PigStorage(',');

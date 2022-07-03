@@ -14,3 +14,9 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+datos = LOAD './data.csv' using PigStorage(',') AS (id:int,  name:chararray, lastname:chararray,   date:chararray,  color:chararray, other:int);
+cant = FOREACH datos GENERATE SUBSTRING(date, 0, 4) AS yearBirthday;
+groupy = GROUP cant BY yearBirthday;
+results = FOREACH groupy GENERATE $0, COUNT($1);
+
+STORE results INTO 'output/' using PigStorage(',');
