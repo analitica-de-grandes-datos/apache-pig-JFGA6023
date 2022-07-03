@@ -17,8 +17,8 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
-datos = LOAD 'data.tsv'  AS (ltr1:CHARARRAY, ltr2:BAG{t: TUPLE(p: CHARARRAY)}, ltr3:MAP[]);
-columnas = FOREACH datos GENERATE ltr2,ltr3;
+data = LOAD 'data.tsv'  AS (ltr1:CHARARRAY, ltr2:BAG{t: TUPLE(p: CHARARRAY)}, ltr3:MAP[]);
+columnas = FOREACH data GENERATE ltr2,ltr3;
 flt = FOREACH columnas GENERATE FLATTEN(ltr2), FLATTEN(ltr3);
 grouped_flt = GROUP flt BY ($0, $1);
 result = FOREACH grouped_flt GENERATE group, COUNT ($1);
