@@ -24,8 +24,8 @@ $ pig -x local -f pregunta.pig
 
 datos = LOAD 'data.csv' USING PigStorage(',') 
     AS (num:int, name:chararray, LASTNAME:chararray, tim:chararray, color:chararray, num2:int);
-selecting = FOREACH datos GENERATE color;
-results = FILTER selecting BY ($0 matches '.*b.*');
+selecc = FOREACH datos GENERATE color;
+results = FILTER selecc BY ($0 matches '.*b.*');
 
 DUMP selecc;
 
